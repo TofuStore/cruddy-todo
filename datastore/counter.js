@@ -38,26 +38,25 @@ const writeCounter = (count, callback) => {
 
 // Public API - Fix this function //////////////////////////////////////////////
 
+var zero = false;
+
 exports.getNextUniqueId = (callback) => {
   let counter;
   //readCounter
   readCounter((x, y) => {
-    //if there is a counter
-    //then we want to increment that counter and writeCounter
-    if (y !== undefined) {
-      counter = y - 1;
+    if (!zero) {
+      zero = true;
+      counter = y;
+    } else {
+      counter = y;
       counter++;
     }
-
-    console.log(counter);
     writeCounter(counter, (x, y) => {
       callback(null, zeroPaddedNumber(counter));
 
     });
-    // counter++;
 
   });
-  //using a callback
 };
 
 

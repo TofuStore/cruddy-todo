@@ -12,7 +12,7 @@ exports.create = (text, callback) => {
   counter.getNextUniqueId((x, y) => {
     //use this next unique ID and create a path from dataDir with the ID
     let id = y;
-    let pathname = exports.dataDir + '/' + y;
+    let pathname = exports.dataDir + '/' + y + '.txt';
     console.log(pathname);
     console.log(text);
     fs.writeFile(pathname, text, function(err) {
@@ -20,7 +20,7 @@ exports.create = (text, callback) => {
         throw err;
       }
       console.log('saved!');
-      callback(null, {id: id});
+      callback(null, {id: id, text: text});
     });
   });
 };
