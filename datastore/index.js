@@ -8,9 +8,21 @@ var items = {};
 // Public API - Fix these CRUD functions ///////////////////////////////////////
 
 exports.create = (text, callback) => {
-  var id = counter.getNextUniqueId();
-  items[id] = text;
-  callback(null, { id, text });
+
+  counter.getNextUniqueId((x, y) => {
+    //use this next unique ID and create a path from dataDir with the ID
+    let id = y;
+    let pathname = exports.dataDir + '/' + y;
+    console.log(pathname);
+    console.log(text);
+    fs.writeFile(pathname, text, function(err) {
+      if (err) {
+        throw err;
+      }
+      console.log('saved!');
+      callback(null, {id: id});
+    });
+  });
 };
 
 exports.readAll = (callback) => {
