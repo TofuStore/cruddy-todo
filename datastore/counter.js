@@ -36,6 +36,11 @@ const writeCounter = (count, callback) => {
   });
 };
 
+//have a good dinner! i'll see you later!
+//ya! ill do that right now, just a sec
+//you can send onto slack, i'm using the browser version so it's not dying
+//thanks!
+
 // Public API - Fix this function //////////////////////////////////////////////
 
 var zero = false;
@@ -44,7 +49,9 @@ exports.getNextUniqueId = (callback) => {
   let counter;
   //readCounter
   readCounter((x, y) => {
-    if (!zero) {
+    //if there is a counter
+    //then we want to increment that counter and writeCounter
+    if (!zero && y === 0) {
       zero = true;
       counter = y;
     } else {
@@ -53,7 +60,6 @@ exports.getNextUniqueId = (callback) => {
     }
     writeCounter(counter, (x, y) => {
       callback(null, zeroPaddedNumber(counter));
-
     });
 
   });
