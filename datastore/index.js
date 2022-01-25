@@ -31,29 +31,23 @@ exports.readAll = (callback) => {
     if (err) {
       console.log(err);
     }
-    // let data = _.map(filenames, (filename) => {
-    //   fs.readFile(exports.dataDir + '/' + filename, 'utf-8', (err, content) => {
-    //     if (err) {
-    //       console.log(err);
-    //     }
-    //     console.log(content);
-    //     console.log(typeof (content));
-    //     return { id: filename, text: content };
-    //   });
-    // });
 
-    data = _.map(filenames, (filename) => {
-      return { id: filename.substring(0, 5), text: filename.substring(0, 5) };
+    const arrayPromises = _.map(filenames, (filename) => {
+      const promise = new Promise((resolve, reject) => {
+        fs.readFile(exports.dataDir + '/' + filename, 'utf-8', (err, content) => {
+          if (err) {
+            console.log(err);
+          }
+          resolve({ id: filename.substring(0, 5), text: content});
+        });
+      });
+      return promise;
     });
 
-    //console.log(data);
-
-    callback(null, data);
+    Promise.all(arrayPromises).then((data) => {
+      callback(null, data);
+    });
   });
-
-  // var data = _.map(items, (text, id) => {
-  //   return { id, text };
-  // });
 };
 
 exports.readOne = (id, callback) => {
